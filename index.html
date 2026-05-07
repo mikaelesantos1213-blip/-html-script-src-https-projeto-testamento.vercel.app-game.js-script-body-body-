@@ -10,7 +10,7 @@
 <script src="[https://unpkg.com/@babel/standalone/babel.min.js](https://unpkg.com/@babel/standalone/babel.min.js)"></script>
 <style>
 body { background: #05000a; color: #fff; font-family: serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-.orb { background: radial-gradient(circle, #1a0b3c, #05000a); border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 0 50px rgba(168, 85, 247, 0.3); border-radius: 50%; transition: all 1s ease; }
+.orb { background: radial-gradient(circle, #1a0b3c, #05000a); border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 0 50px rgba(168, 85, 247, 0.3); border-radius: 50%; }
 </style>
 </head>
 <body>
@@ -21,57 +21,30 @@ function App() {
 const [view, setView] = useState('login');
 const [nick, setNick] = useState('');
 const [input, setInput] = useState('');
-const [resp, setResp] = useState("O Oráculo aguarda o teu sussurro...");
-const [loading, setLoading] = useState(false);
+const [resp, setResp] = useState("O Oráculo aguarda...");
 const ask = () => {
-if (!input.trim() || loading) return;
-setLoading(true);
-setResp("As sombras estão a ler o teu destino...");
+if (!input.trim()) return;
+setResp("As sombras sussurram...");
 setTimeout(() => {
-const frases = [
-"O destino sorri para a tua audácia.",
-"As trevas escondem o que procuras.",
-"A resposta está no silêncio da noite.",
-"Grandes mudanças aproximam-se de ti.",
-"Cuidado com quem te observa de longe.",
-"A coragem será a tua única salvação."
-];
-setResp(frases[Math.floor(Math.random() * frases.length)]);
+const r = ["O destino sorri.", "As trevas guardam segredos.", "O futuro é teu.", "Cuidado."];
+setResp(r[Math.floor(Math.random() * r.length)]);
 setInput('');
-setLoading(false);
-}, 2000);
+}, 1500);
 };
 return (
-<div className="flex flex-col items-center justify-center p-6 text-center">
+<div className="p-6 text-center">
 {view === 'login' ? (
-<div className="bg-zinc-900/80 p-10 rounded-[3rem] border border-purple-500/20 shadow-2xl">
-<h2 className="text-xl mb-8 italic font-bold text-purple-400 tracking-widest">O PORTAL</h2>
-<input
-className="w-full bg-black border border-purple-900/40 p-4 rounded-xl text-center mb-4 outline-none text-white uppercase tracking-tighter"
-placeholder="NICKNAME"
-onChange={e => setNick(e.target.value.toUpperCase())}
-/>
-<button
-onClick={() => nick && setView('game')}
-className="w-full bg-purple-900 py-4 rounded-xl font-bold uppercase tracking-widest active:scale-95 transition-transform"
->
-Entrar
-</button>
+<div className="bg-zinc-900/80 p-10 rounded-[3rem] border border-purple-500/20">
+<h2 className="text-xl mb-8 italic font-bold text-purple-400">O PORTAL</h2>
+<input className="w-full bg-black border border-purple-900 p-4 rounded-xl text-center mb-4 outline-none text-white uppercase" placeholder="NICKNAME" onChange={e => setNick(e.target.value.toUpperCase())}/>
+<button onClick={() => nick && setView('game')} className="w-full bg-purple-900 py-4 rounded-xl font-bold uppercase tracking-widest">Entrar</button>
 </div>
 ) : (
 <div className="flex flex-col items-center">
 <p className="mb-8 text-purple-400 font-bold tracking-[0.3em] uppercase italic text-[10px]">{nick}</p>
-<div className={w-64 h-64 orb flex items-center justify-center p-8 italic text-sm leading-relaxed ${loading ? 'scale-110 opacity-100' : 'opacity-80'}}>
-{resp}
-</div>
+<div className="w-64 h-64 orb flex items-center justify-center p-8 italic text-sm leading-relaxed">{resp}</div>
 <div className="mt-12 relative flex items-center bg-zinc-900/50 rounded-2xl px-4 border border-white/5">
-<input
-className="bg-transparent p-5 outline-none uppercase text-[10px] w-full text-white tracking-widest"
-placeholder="Sussurra..."
-value={input}
-onChange={e => setInput(e.target.value)}
-onKeyPress={e => e.key === 'Enter' && ask()}
-/>
+<input className="bg-transparent p-5 outline-none uppercase text-[10px] w-full text-white" placeholder="Sussurra..." value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && ask()}/>
 <button onClick={ask} className="bg-purple-900 px-4 py-2 rounded-xl font-black text-[9px] uppercase">Ler</button>
 </div>
 </div>
