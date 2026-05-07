@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
@@ -15,78 +14,48 @@
     </style>
 </head>
 <body>
-    <div id="root" class="w-full h-full"></div>
+    <div id="root"></div>
     <script type="babel">
         const { useState } = React;
-
         function App() {
             const [view, setView] = useState('login');
             const [nick, setNick] = useState('');
             const [input, setInput] = useState('');
-            const [resp, setResp] = useState("O Oráculo aguarda o teu sussurro...");
-            const [loading, setLoading] = useState(false);
-
+            const [resp, setResp] = useState("O Oráculo aguarda...");
             const ask = () => {
-                if (!input.trim() || loading) return;
-                setLoading(true);
-                setResp("As sombras estão a ler o teu destino...");
-                setInput('');
-
+                if (!input.trim()) return;
+                setResp("Lendo o destino...");
                 setTimeout(() => {
-                    const frases = [
-                        "O destino sorri para a tua audácia.",
-                        "As trevas escondem o que procuras.",
-                        "A resposta está no silêncio da noite.",
-                        "Grandes mudanças aproximam-se.",
-                        "Cuidado com quem te observa de longe."
-                    ];
+                    const frases = ["O destino sorri para ti.", "As trevas guardam segredos.", "O amanhã será diferente."];
                     setResp(frases[Math.floor(Math.random() * frases.length)]);
-                    setLoading(false);
-                }, 2000);
+                    setInput('');
+                }, 1500);
             };
-
             return (
-                <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                    <h1 className="text-[10px] tracking-[0.8em] text-purple-600 mb-10 font-bold uppercase">Projeto Testamento</h1>
-
+                <div className="flex flex-col items-center justify-center p-6 text-center">
                     {view === 'login' ? (
-                        <div className="bg-zinc-900/40 p-10 rounded-[3rem] border border-white/5 w-full max-w-xs">
-                            <h2 className="text-xl mb-8 italic">O Portal</h2>
-                            <input 
-                                className="w-full bg-black/60 border border-purple-900/30 p-4 rounded-2xl text-center text-xs mb-4 outline-none text-white uppercase"
-                                placeholder="NICKNAME"
-                                onChange={(e) => setNick(e.target.value)}
-                            />
-                            <button 
-                                onClick={() => nick && setView('game')}
-                                className="w-full bg-purple-900 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest"
-                            >
-                                Entrar
-                            </button>
+                        <div className="bg-zinc-900/80 p-10 rounded-[3rem] border border-purple-500/20 shadow-2xl">
+                            <h2 className="text-xl mb-8 italic font-bold">O PORTAL</h2>
+                            <input className="w-full bg-black border border-purple-900 p-4 rounded-xl text-center mb-4 outline-none text-white uppercase" placeholder="NICKNAME" onChange={e => setNick(e.target.value.toUpperCase())}/>
+                            <button onClick={() => nick && setView('game')} className="w-full bg-purple-900 py-4 rounded-xl font-bold uppercase tracking-widest">Entrar</button>
                         </div>
                     ) : (
-                        <div className="flex flex-col items-center w-full max-w-xs">
-                            <p className="mb-8 text-purple-400 font-bold text-[10px] tracking-widest uppercase italic">{nick}</p>
-                            <div className={`w-64 h-64 orb flex items-center justify-center p-8 transition-all duration-1000 ${loading ? 'scale-105 opacity-100' : 'opacity-80'}`}>
-                                <p className="text-sm italic leading-relaxed text-purple-100">{resp}</p>
-                            </div>
-                            <div className="mt-12 w-full relative">
-                                <input 
-                                    className="w-full bg-zinc-900/30 border border-white/5 p-5 pr-16 rounded-2xl outline-none text-[10px] uppercase tracking-widest text-white"
-                                    placeholder="Sussurra..."
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && ask()}
-                                />
-                                <button onClick={ask} className="absolute right-2 top-2 bottom-2 bg-purple-900 px-4 rounded-xl text-[8px] font-black uppercase">Ler</button>
+                        <div className="flex flex-col items-center">
+                            <p className="mb-8 text-purple-400 font-bold tracking-widest uppercase italic">{nick}</p>
+                            <div className="w-64 h-64 orb flex items-center justify-center p-8 italic text-sm leading-relaxed">{resp}</div>
+                            <div className="mt-12 relative flex items-center bg-zinc-900 rounded-2xl px-4 border border-white/5">
+                                <input className="bg-transparent p-5 outline-none uppercase text-[10px] w-full text-white" placeholder="Sussurra..." value={input} onChange={e => setInput(e.target.value)}/>
+                                <button onClick={ask} className="bg-purple-900 px-4 py-2 rounded-xl font-black text-[10px] uppercase">Ler</button>
                             </div>
                         </div>
                     )}
                 </div>
             );
         }
-
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
 </body>
 </html>
+
+
+```
